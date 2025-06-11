@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
@@ -24,32 +25,70 @@ public class DaoImplHibernate implements Dao {
     private Session session;
     private Transaction tx;
     private Connection connection;
-
+    private static SessionFactory sessionFactory;
     @Override
     public void connect() {
         try {
-            Configuration configuration = new Configuration().configure("hibernate.cfg.xml");
-            org.hibernate.SessionFactory sessionFactory = configuration.buildSessionFactory();
-            session = sessionFactory.openSession();
-            return;
+            if (sessionFactory == null) {
+                Configuration configuration = new Configuration().configure("hibernate.cfg.xml");
+                sessionFactory = configuration.buildSessionFactory();
+                System.out.println("SessionFactory created successfully.");
+            }
+            if (session == null || !session.isOpen()) {
+                session = sessionFactory.openSession();
+                System.out.println("Hibernate session opened successfully.");
+            }
         } catch (Exception e) {
+            System.err.println("Failed to initialize Hibernate session: " + e.getMessage());
             e.printStackTrace();
+            throw new RuntimeException("Could not connect to database", e);
         }
     }
 
     @Override
     public Employee getEmployee(int user, String pw) {
-        // TODO Auto-generated method stub
-        return null;
+        Transaction tx = null;
+        Employee employee = null;
+
+        try {
+            if (session == null || !session.isOpen()) {
+                connect(); // Ensure session is open
+            }
+            tx = session.beginTransaction();
+
+            Query<Employee> query = session.createQuery(
+                    "FROM Employee e WHERE e.employeeId = :employeeId AND e.password = :password",
+                    Employee.class
+            );
+            query.setParameter("employeeId", user);
+            query.setParameter("password", pw);
+
+            employee = query.uniqueResult();
+
+            tx.commit();
+            if (employee != null) {
+                System.out.println("Employee retrieved successfully: " + employee.getEmployeeId());
+            } else {
+                System.out.println("No employee found with the provided credentials.");
+            }
+        } catch (HibernateException e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            e.printStackTrace();
+        }
+
+        return employee;
     }
 
     @Override
     public void disconnect() {
         try {
-            if (connection != null) {
-                connection.close();
+            if (session != null && session.isOpen()) {
+                session.close();
+                System.out.println("Hibernate session closed successfully.");
             }
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

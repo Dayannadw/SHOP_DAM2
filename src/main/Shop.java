@@ -29,10 +29,10 @@ public class Shop {
 	final static double TAX_RATE = 1.04;
 
 	// Connection using MongoDB.
-	private Dao dao = new DaoImplMongoDB();
+	//private Dao dao = new DaoImplMongoDB();
 	
 	// Connection using Hibernate.
-	// private Dao dao = new DaoImplHibernate();
+	 private Dao dao = new DaoImplHibernate();
 
 	// Connection using JDBC.
 	// private Dao dao = new DaoImplJDBC();

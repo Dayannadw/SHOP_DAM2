@@ -109,41 +109,74 @@ public class LoginView extends JFrame implements ActionListener {
 
 	}
 
+//	public void validLogin() {
+//		Employee employee = new Employee();
+//		boolean login = false;
+//		counter++;
+//
+//		try {
+//			// It shows an error if user made 3 attempts.
+//			if (counter == MAX_COUNTER && !login) {
+//				throw new LimitLoginException();
+//			}
+//
+//			while (!login) {
+//				int employeeNumber = Integer.parseInt(userTextField.getText());
+//				String password = passwordTextField.getText();
+//				login = employee.login(employeeNumber, password);
+//
+//				if (!login) {
+//					JOptionPane.showMessageDialog(this, "Error. Invalid account. Attempts: " + counter + "/3");
+//					login = true;
+//					userTextField.setText(null);
+//					passwordTextField.setText(null);
+//				} else {
+//					dispose();
+//					ShopView shopview = new ShopView();
+//					shopview.setVisible(true);
+//				}
+//			}
+//		} catch (LimitLoginException limitLoginEx) {
+//			// Show error dialog.
+//			JOptionPane.showMessageDialog(LoginView.this, limitLoginEx.getMessage(), "Error",
+//					JOptionPane.ERROR_MESSAGE);
+//			dispose();
+//		} catch (NumberFormatException numberFormatEx) {
+//			// Show error dialog.
+//			JOptionPane.showMessageDialog(null, "Incorrect format.");
+//		}
+//	}
+
 	public void validLogin() {
 		Employee employee = new Employee();
 		boolean login = false;
 		counter++;
 
 		try {
-			// It shows an error if user made 3 attempts.
-			if (counter == MAX_COUNTER && !login) {
+			if (counter >= MAX_COUNTER) {
 				throw new LimitLoginException();
 			}
 
-			while (!login) {
-				int employeeNumber = Integer.parseInt(userTextField.getText());
-				String password = passwordTextField.getText();
-				login = employee.login(employeeNumber, password);
+			int employeeNumber = Integer.parseInt(userTextField.getText());
+			String password = passwordTextField.getText();
+			login = employee.login(employeeNumber, password);
 
-				if (!login) {
-					JOptionPane.showMessageDialog(this, "Error. Invalid account. Attempts: " + counter + "/3");
-					login = true;
-					userTextField.setText(null);
-					passwordTextField.setText(null);
-				} else {
-					dispose();
-					ShopView shopview = new ShopView();
-					shopview.setVisible(true);
-				}
+			if (login) {
+				dispose();
+				ShopView shopView = new ShopView();
+				shopView.setVisible(true);
+			} else {
+				JOptionPane.showMessageDialog(this, "Error. Invalid account. Attempts: " + counter + "/3");
+				userTextField.setText(null);
+				passwordTextField.setText(null);
 			}
 		} catch (LimitLoginException limitLoginEx) {
-			// Show error dialog.
-			JOptionPane.showMessageDialog(LoginView.this, limitLoginEx.getMessage(), "Error",
-					JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, limitLoginEx.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 			dispose();
 		} catch (NumberFormatException numberFormatEx) {
-			// Show error dialog.
-			JOptionPane.showMessageDialog(null, "Incorrect format.");
+			JOptionPane.showMessageDialog(this, "Incorrect format. Please enter a valid employee ID.");
+			userTextField.setText(null);
+			passwordTextField.setText(null);
 		}
 	}
 
