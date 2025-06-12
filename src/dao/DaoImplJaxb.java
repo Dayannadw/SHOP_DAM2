@@ -71,4 +71,10 @@ public class DaoImplJaxb implements Dao {
 
 	}
 
+	@Override
+	public int getAvailableProducts() {
+		return 0;
+	}
+
+
 }

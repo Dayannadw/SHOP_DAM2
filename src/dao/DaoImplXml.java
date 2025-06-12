@@ -83,4 +83,10 @@ public class DaoImplXml implements Dao {
 
 	}
 
+	@Override
+	public int getAvailableProducts() {
+		return 0;
+	}
+
+
 }

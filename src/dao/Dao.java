@@ -23,4 +23,8 @@ public interface Dao {
 	
 	void deleteProduct(Product product);
 
+	//new method obtain number of products:
+	int getAvailableProducts ();
+
+
 }

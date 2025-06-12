@@ -236,4 +236,35 @@ public class DaoImplHibernate implements Dao {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public int getAvailableProducts() {
+        tx = null;
+        int count = 0;
+
+        try {
+            tx = session.beginTransaction();
+            Query<Long> query = session.createQuery("Select count (i) from Product i where i.stock > 0", Long.class);
+            Long result = query.uniqueResult();
+
+            //query.setParameter("stock");
+
+            if (result != null) {
+                count = result.intValue();
+            }
+
+            tx.commit();
+            System.out.println("Total products " + count);
+
+        } catch (HibernateException e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            e.printStackTrace();
+        }
+        return count;
+    }
+
+
+
 }

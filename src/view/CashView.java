@@ -49,7 +49,7 @@ public class CashView extends JDialog implements ActionListener {
 		cashLabel = new JLabel();
 		contentPanel.add(cashLabel);
 
-		cashAmount();
+		productAmount();
 		{
 			JPanel buttonPanel = new JPanel();
 			buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -74,6 +74,15 @@ public class CashView extends JDialog implements ActionListener {
 		String cashAmount = shop.recoverCash();
 		cashLabel.setText("Dinero en caja: " + cashAmount);
 	}
+	//replace cachAmount with prodcut Amount
+	public void productAmount() {
+		int productAmount = shop.getAvailableProducts();
+		cashLabel.setText("Total items currently in products: " + productAmount);
+	}
+
+
+
+
 
 	@Override
 	public void actionPerformed(ActionEvent interactionButtons) {

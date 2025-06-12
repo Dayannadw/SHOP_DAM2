@@ -129,4 +129,11 @@ public class DaoImplFile implements Dao {
     public void deleteProduct(Product product) {
         // TODO Auto-generated method stub
     }
+
+    @Override
+    public int getAvailableProducts() {
+        return 0;
+    }
+
+
 }

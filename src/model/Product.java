@@ -41,6 +41,9 @@ public class Product {
 	private Amount publicPrice;
 
 	@Transient
+	private Product productosEnTotal;
+
+	@Transient
 	private Amount wholesalerPrice;
 
 	@Column
@@ -186,6 +189,11 @@ public class Product {
             this.publicPrice = new Amount(this.wholesalerPrice.getValue() * 2);
         }
     }
+
+	//method para obtener todos los productos
+
+
+
 
 	// Method to calculate publicPrice in JAXB.
 	public void publicPriceCalculate() {

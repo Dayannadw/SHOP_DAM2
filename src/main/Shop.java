@@ -21,6 +21,7 @@ import java.time.format.DateTimeFormatter;
 
 public class Shop {
 	private Amount cash = new Amount(100.00);
+
 	private ArrayList<Product> inventory = new ArrayList<>();
 	private int numberProducts;
 	private ArrayList<Sale> sales = new ArrayList<>();
@@ -448,6 +449,14 @@ public class Shop {
 	public String recoverCash() {
 		return cash.toString();
 	}
+
+	//call hibernate method getAvailableProducts
+	public int getAvailableProducts(){
+		return dao.getAvailableProducts();
+	}
+
+
+
 
 	// Save inventory
 	public ArrayList<Product> getInventory() {

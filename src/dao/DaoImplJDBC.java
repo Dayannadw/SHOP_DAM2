@@ -159,4 +159,10 @@ public class DaoImplJDBC implements Dao {
 		}
 	}
 
+	@Override
+	public int getAvailableProducts() {
+		return 0;
+	}
+
+
 }

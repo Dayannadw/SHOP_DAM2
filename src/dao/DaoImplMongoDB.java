@@ -181,4 +181,10 @@ public class DaoImplMongoDB implements Dao {
 		}
 	}
 
+	@Override
+	public int getAvailableProducts() {
+		return 0;
+	}
+
+
 }
